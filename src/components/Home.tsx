@@ -12,6 +12,7 @@ import {
 } from "@mantine/core";
 import SearchBar from "@components/SearchBar";
 import SchoolCard from "@components/SchoolCard";
+import DistrictCard from "@components/DistrictCard";
 import {
   searchSchoolDistricts,
   searchSchools,
@@ -54,6 +55,18 @@ const Home = () => {
         setDistrictSearch([]);
         };
 
+    const handleViewSchools = async (districtLEAID: string) => {
+        setSearching(true);
+        try {
+            const results = await searchSchools("", districtLEAID);
+            setSchoolSearch(results);
+            setDistrictSearch([]);
+        } catch (err) {
+            console.error("Failed to find schools:", err);
+        }
+        setSearching(false);
+    };
+
   return (
     <Container size="md" pt={60}>
       <Stack spacing="xl">
@@ -71,12 +84,11 @@ const Home = () => {
         {searching && <Loader size="sm" />}
 
         {districtSearch.map((district, index) => (
-          <Card key={index} shadow="sm" withBorder>
-            <Title order={4}>{district.NAME}</Title>
-            <Text>{district.LCITY}, {district.LSTATE} {district.LZIP}</Text>
-            <Divider my="sm" />
-            <Text size="sm">LEAID: {district.LEAID}</Text>
-          </Card>
+            <DistrictCard
+                key={index}
+                district={district}
+                onViewSchools={handleViewSchools}
+            />
         ))}
 
         {schoolSearch.map((school, index) => (
