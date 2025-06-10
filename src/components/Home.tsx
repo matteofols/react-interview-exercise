@@ -1,71 +1,84 @@
-import React, { useEffect } from "react"
+
+import React, { useState } from "react";
 import {
-    Button,
-    Center,
-    Heading,
-    Text,
-    Icon,
-    Input,
-    ScaleFade,
-    OrderedList,
-    Divider,
-    ListItem,
-    Spinner,
-    InputGroup, // Some Chakra components that might be usefull
-    HStack,
-    VStack,
-    InputRightAddon,
-} from "@chakra-ui/react"
-import { Card } from '@components/design/Card'
-import { searchSchoolDistricts, searchSchools, NCESDistrictFeatureAttributes, NCESSchoolFeatureAttributes } from "@utils/nces"
+  Container,
+  Title,
+  Loader,
+  Stack,
+  Card,
+  Text,
+  Divider,
+} from "@mantine/core";
+import SearchBar from "@components/SearchBar";
+import {
+  searchSchoolDistricts,
+  searchSchools,
+  NCESDistrictFeatureAttributes,
+  NCESSchoolFeatureAttributes,
+} from "@utils/nces";
 
+const Home = () => {
+  const [searching, setSearching] = useState(false);
+  const [query, setQuery] = useState("");
+  const [searchType, setSearchType] = useState("school");
+  const [districtSearch, setDistrictSearch] = useState<NCESDistrictFeatureAttributes[]>([]);
+  const [schoolSearch, setSchoolSearch] = useState<NCESSchoolFeatureAttributes[]>([]);
 
-const Home: React.FC = () => {
-    const [searching, setSearching] = React.useState(false)
-    const [districtSearch, setDistrictSearch] = React.useState<NCESDistrictFeatureAttributes[]>([]);
-    const [schoolSearch, setSchoolSearch] = React.useState<NCESSchoolFeatureAttributes[]>([]);
-    
-    const demo = async () => { // see console for api result examples
-        setSearching(true)
-        const demoDistrictSearch = await searchSchoolDistricts("Peninsula School District")
-        setDistrictSearch(demoDistrictSearch)
-        console.log("District example", demoDistrictSearch)
+  const handleSearch = async () => {
+    setSearching(true);
 
-        const demoSchoolSearch = await searchSchools("k", demoDistrictSearch[1].LEAID)
-        setSchoolSearch(demoSchoolSearch)
-        console.log("School Example", demoSchoolSearch)
-        setSearching(false)
+    try {
+      if (searchType === "district") {
+        const results = await searchSchoolDistricts(query);
+        setDistrictSearch(results);
+        setSchoolSearch([]);
+      } else {
+        const results = await searchSchools(query);
+        setSchoolSearch(results);
+        setDistrictSearch([]);
+      }
+    } catch (error) {
+      console.error("Search failed:", error);
     }
 
-    useEffect(() => {
-        demo()
-    }, [])
-    
-    return (
-        <Center padding="100px" height="90vh">
-            <ScaleFade initialScale={0.9} in={true}>
-                <Card variant="rounded" borderColor="blue">
-                    <Heading>School Data Finder</Heading>
-                    <Text>
-                        How would you utilize React.useEffect with the searchSchoolDistricts and searchSchools functions? <br />
-                        Using <a href="https://chakra-ui.com/docs/principles" target="_blank">Chakra-UI</a> or your favorite UI toolkit, build an interface that allows the user to: <br />
-                        <OrderedList>
-                            <ListItem>Search for a district</ListItem>
-                            <ListItem>Search for a school within the district (or bypass district filter)</ListItem>
-                            <ListItem>View all returned data in an organized way</ListItem>
-                        </OrderedList>
-                    </Text>
-                    <Divider margin={4} />
-                    <Text>
-                        Check the console for example of returned data. <b>Happy coding!</b>< br />
-                        {searching ? <Spinner /> : <></>}< br />
-                        {districtSearch.length} Demo Districts<br />
-                        {schoolSearch.length} Demo Schools<br />
-                    </Text>
-                </Card>
-            </ScaleFade>
-        </Center>
-    );
+    setSearching(false);
+  };
+
+  return (
+    <Container size="md" pt={60}>
+      <Stack spacing="xl">
+        <Title align="center">School Finder</Title>
+
+        <SearchBar
+          query={query}
+          setQuery={setQuery}
+          searchType={searchType}
+          setSearchType={setSearchType}
+          onSearch={handleSearch}
+        />
+
+        {searching && <Loader size="sm" />}
+
+        {districtSearch.map((district, index) => (
+          <Card key={index} shadow="sm" withBorder>
+            <Title order={4}>{district.NAME}</Title>
+            <Text>{district.LCITY}, {district.LSTATE} {district.LZIP}</Text>
+            <Divider my="sm" />
+            <Text size="sm">LEAID: {district.LEAID}</Text>
+          </Card>
+        ))}
+
+        {schoolSearch.map((school, index) => (
+          <Card key={index} shadow="sm" withBorder>
+            <Title order={4}>{school.NAME}</Title>
+            <Text>{school.CITY}, {school.STATE} {school.ZIP}</Text>
+            <Divider my="sm" />
+            <Text size="sm">LEAID: {school.LEAID}</Text>
+          </Card>
+        ))}
+      </Stack>
+    </Container>
+  );
 };
 
-export default Home
+export default Home;

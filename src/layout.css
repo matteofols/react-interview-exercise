@@ -1,0 +1,9 @@
+
+.searchbar{
+    border: 5px black solid;
+    width: 100vw;
+    padding-left: 30vw;
+    padding-right: 30vw;
+    margin-left: 30%;
+    margin-right: 30%;
+}

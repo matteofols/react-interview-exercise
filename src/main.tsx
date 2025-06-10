@@ -2,14 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.scss'
 import App from './App'
-import { ChakraProvider } from "@chakra-ui/react";
-import { theme } from './theme';
+import { MantineProvider } from '@mantine/core';
+// import { theme } from './theme';
 
-ReactDOM.render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
+    <MantineProvider withGlobalStyles withNormalizeCSS>
       <App />
-    </ChakraProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
-)
+    </MantineProvider>
+  </React.StrictMode>
+);
