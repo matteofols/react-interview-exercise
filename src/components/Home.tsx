@@ -8,8 +8,10 @@ import {
   Card,
   Text,
   Divider,
+  Box
 } from "@mantine/core";
 import SearchBar from "@components/SearchBar";
+import SchoolCard from "@components/SchoolCard";
 import {
   searchSchoolDistricts,
   searchSchools,
@@ -42,7 +44,15 @@ const Home = () => {
     }
 
     setSearching(false);
+
   };
+
+  const clearSearch = () => {
+        setQuery("");
+        setSearchType("school");
+        setSchoolSearch([]);
+        setDistrictSearch([]);
+        };
 
   return (
     <Container size="md" pt={60}>
@@ -55,6 +65,7 @@ const Home = () => {
           searchType={searchType}
           setSearchType={setSearchType}
           onSearch={handleSearch}
+          onClear={clearSearch}
         />
 
         {searching && <Loader size="sm" />}
@@ -69,13 +80,17 @@ const Home = () => {
         ))}
 
         {schoolSearch.map((school, index) => (
-          <Card key={index} shadow="sm" withBorder>
-            <Title order={4}>{school.NAME}</Title>
-            <Text>{school.CITY}, {school.STATE} {school.ZIP}</Text>
-            <Divider my="sm" />
-            <Text size="sm">LEAID: {school.LEAID}</Text>
-          </Card>
+          <SchoolCard key={index} school={school} />
         ))}
+
+        {!searching && districtSearch.length === 0 && schoolSearch.length === 0 && query !== "" && (
+          <Box>
+            <Text align="center" color="dimmed">
+              No results found.
+            </Text>
+          </Box>
+        )}
+
       </Stack>
     </Container>
   );
