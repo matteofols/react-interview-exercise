@@ -18,19 +18,21 @@ const SchoolCard = ({school}: SchoolCardProps) => {
                 title={school.NAME}
                 padding="md"
                 position="left"
-                size="md">
+                size="md"
+                closeButtonProps={{color:'red'}}
+                zIndex={1000}>
                     <Stack spacing="xs">
-                        <Text><strong>LEAID:</strong> {school.LEAID}</Text>
                         <Text><strong>Locale:</strong> {school.LOCALE}</Text>
                         <Text><strong>County:</strong> {school.NMCNTY}</Text>
                         <Text><strong>Address:</strong> {school.STREET}, {school.CITY}, {school.STATE} {school.ZIP}</Text>
+                        <Text><strong>LEAID:</strong> {school.LEAID}</Text>
                         <Text><strong>Latitude:</strong> {school.LAT}</Text>
                         <Text><strong>Longitude:</strong> {school.LON}</Text>
                     </Stack>
             </Drawer>
 
-            <Card withBorder radius="md" shadow="sm">
-                <Title order={4}>{school.NAME}</Title>
+            <Card withBorder radius="sm" shadow="xs" p="md" style={{width:"100%"}}>
+                <Title order={5}>{school.NAME}</Title>
                 <Text>{school.STREET}</Text>
                 <Text>{school.CITY}, {school.STATE} {school.ZIP}</Text>
                 <Divider my="sm" />
