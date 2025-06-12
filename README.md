@@ -44,4 +44,4 @@ npm install
 
 npm run dev
 
-### The project should be runing on localhost:3000
+### The project should be running on localhost:3000
