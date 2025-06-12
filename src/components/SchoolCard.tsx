@@ -19,6 +19,7 @@ const SchoolCard = ({school}: SchoolCardProps) => {
                 padding="md"
                 position="left"
                 size="md"
+                closeButtonProps={{color:'red'}}
                 zIndex={1000}>
                     <Stack spacing="xs">
                         <Text><strong>Locale:</strong> {school.LOCALE}</Text>

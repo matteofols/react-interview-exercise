@@ -33,6 +33,7 @@ const DistrictCard = ({ district}: DistrictCardProps) => {
             padding="md"
             position="right"
             size="md"
+            closeButtonProps={{color:'red'}}
             zIndex={1000}
             >
                 {loading ? (

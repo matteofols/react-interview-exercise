@@ -33,6 +33,7 @@ const SearchBar = ({
                 if(e.key === "Enter") onSearch();
             }}
             w="100%"
+            radius="xl"
           />
 
           <Select
@@ -43,11 +44,12 @@ const SearchBar = ({
               { value: "district", label: "District" },
             ]}
             w="100%"
+            radius="xl"
           />
 
           <Group grow>
-            <Button onClick={onSearch}>Search</Button>
-            <Button variant="outline" onClick={onClear}>Clear</Button>
+            <Button onClick={onSearch} radius="xl">Search</Button>
+            <Button variant="outline" onClick={onClear} color="red" radius="xl">Clear</Button>
           </Group>
         </Stack>
       ) : (
@@ -79,7 +81,16 @@ const SearchBar = ({
 
                 
                 <Button onClick={onSearch} radius="xl">Search</Button>
-                <Button onClick={onClear} variant="outline" color="gray" radius="xl">
+                <Button onClick={onClear} variant="outline" color="red" radius="xl"
+                styles={(theme) => ({
+                    root: {
+                    transition: "background-color 150ms ease", "&:hover": {
+                        backgroundColor: theme.colors.red[0], // light red background
+                        color: theme.colors.red[7],           // darker red text
+                        borderColor: theme.colors.red[5],
+                        },
+                        },
+                    })}>
                     Clear
                 </Button>
                 </Group>
