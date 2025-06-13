@@ -59,12 +59,11 @@ const DistrictCard = ({ district}: DistrictCardProps) => {
                     )}
 
         </Drawer>
-        <Card withBorder radius="sm" shadow="xs" p="md" style={{width:"100%"}}>
+        <Card withBorder radius="xl" shadow="md" p="md" style={{width:"100%"}}>
             <Title order={4}>{district.NAME}</Title>
             <Text>{district.LSTREE}</Text>
             <Text>{district.LCITY}, {district.LSTATE} {district.LZIP}</Text>
             <Divider my="sm" />
-            <Text size="sm" color="dimmed">LEAID: {district.LEAID}</Text>
             <Button mt="md" onClick={handleViewSchools}
               styles={{
                 root: {
