@@ -10,6 +10,7 @@ import {
   Image,
   Group,
 } from "@mantine/core";
+import headerLogo from '../header_logo.png'
 
 /**
  * @component Footer
@@ -28,7 +29,7 @@ const Footer = () => {
           {/* Column 1 - Logo + Contact */}
           <Grid.Col span={12} md={3}>
             <Stack spacing="xs">
-              <Image src="src/header_logo.png" alt="CharacterStrong Logo" w={160} />
+              <Image src={headerLogo} alt="CharacterStrong Logo" w={160} />
 
               <Text fw={700}>Headquarters</Text>
               <Text size="sm">
