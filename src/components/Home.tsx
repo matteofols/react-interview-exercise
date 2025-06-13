@@ -36,7 +36,7 @@ import {
  */
 
 const Home = () => {
-    // Tracks whether a search request is currently in progress to show a loading spinner
+  // Tracks whether a search request is currently in progress to show a loading spinner
   const [searching, setSearching] = useState(false);
 
   // Stores the user's input from the search bar
@@ -46,10 +46,14 @@ const Home = () => {
   const [searchType, setSearchType] = useState("school");
 
   // Holds the array of district search results (from the NCES API)
-  const [districtSearch, setDistrictSearch] = useState<NCESDistrictFeatureAttributes[]>([]);
+  const [districtSearch, setDistrictSearch] = useState<
+    NCESDistrictFeatureAttributes[]
+  >([]);
 
   // Holds the array of school search results (from the NCES API)
-  const [schoolSearch, setSchoolSearch] = useState<NCESSchoolFeatureAttributes[]>([]);
+  const [schoolSearch, setSchoolSearch] = useState<
+    NCESSchoolFeatureAttributes[]
+  >([]);
 
   // Debounced value of the search query to reduce API calls while typing
   const [debouncedQuery] = useDebouncedValue(query, 300);
@@ -70,7 +74,8 @@ const Home = () => {
         const results = await searchSchoolDistricts(query);
         setDistrictSearch(results);
         setSchoolSearch([]);
-      } else { // For schools, if selected
+      } else {
+        // For schools, if selected
         const results = await searchSchools(query);
         setSchoolSearch(results);
         setDistrictSearch([]);
@@ -89,12 +94,10 @@ const Home = () => {
     }
   }, [debouncedQuery, searchType]);
 
-
   return (
     <Container size="xl" pt={60}>
       <Stack spacing="xl">
-        <Title align="center" mt={60}
-        style={{zIndex: 1}}>
+        <Title align="center" mt={60} style={{ zIndex: 1 }}>
           School Finder
         </Title>
 
@@ -110,9 +113,25 @@ const Home = () => {
         {searching && <Loader size="sm" />}
 
         {schoolSearch.length > 0 || districtSearch.length > 0 ? (
-          <Grid gutter="xl" align="start">
+          <Grid gutter="xl" align="start" style={{zIndex: 1}}>
             {/* Left: Results */}
             <Col span={12} md={6}>
+              {(schoolSearch.length > 0 || districtSearch.length > 0) && (
+                <Text size="sm" color="black" mb="md" 
+                style={{ 
+                  zIndex: 2000,
+                  fontWeight: 700
+                 }}>
+                  {/* Conditional logic for displaying district or schools */}
+                  {schoolSearch.length > 0
+                    ? `Now showing ${schoolSearch.length} school${
+                        schoolSearch.length !== 1 ? "s" : ""
+                      }`
+                    : `Now showing ${districtSearch.length} district${
+                        districtSearch.length !== 1 ? "s" : ""
+                      }`}
+                </Text>
+              )}
               <Box
                 style={{
                   maxHeight: "70vh",
@@ -122,32 +141,9 @@ const Home = () => {
               >
                 <Stack spacing="md">
                   {/* Sticky banner showing count of current results */}
-                  {(schoolSearch.length > 0 || districtSearch.length > 0) && (
-                    <Box
-                        style={{
-                            position: "sticky",
-                            top: 0,
-                            backgroundColor: "white",
-                            zIndex: 1,
-                            paddingBottom: "0.5rem",
-                            paddingLeft:"0.5rem",
-                            paddingTop: "0.5rem"
-                        }}
-                        >
-                        <Text size="sm" color="dimmed">
-                          {/* Conditional logic for displaying district or schools */}
-                            {schoolSearch.length > 0
-                            ? `Now showing ${schoolSearch.length} school${schoolSearch.length !== 1 ? "s" : ""}`
-                            : `Now showing ${districtSearch.length} district${districtSearch.length !== 1 ? "s" : ""}`}
-                        </Text>
-                        </Box>
-                  )}
                   {/* Render either district cards or school cards */}
                   {districtSearch.map((district, index) => (
-                    <DistrictCard
-                      key={index}
-                      district={district}
-                    />
+                    <DistrictCard key={index} district={district} />
                   ))}
                   {schoolSearch.map((school, index) => (
                     <SchoolCard key={index} school={school} />

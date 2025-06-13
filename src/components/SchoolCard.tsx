@@ -40,7 +40,7 @@ const SchoolCard = ({school}: SchoolCardProps) => {
                     </Stack>
             </Drawer>
 
-            <Card withBorder radius="sm" shadow="xs" p="md" style={{width:"100%"}}>
+            <Card withBorder radius="xl" shadow="md" p="md" style={{width:"100%"}}>
                 <Title order={5}>{school.NAME}</Title>
                 <Text>{school.STREET}</Text>
                 <Text>{school.CITY}, {school.STATE} {school.ZIP}</Text>
