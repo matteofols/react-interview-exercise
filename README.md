@@ -25,7 +25,7 @@ A responsive React + TypeScript application that allows users to search for U.S.
 - [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript)  
 - [NCES + ArcGIS APIs](https://data-nces.opendata.arcgis.com/)  
 - [Vite](https://vitejs.dev/)  
-- Deployed via [Vercel](https://character-strong-project.vercel.app/)
+- Deployed via Vercel [Click Here](https://character-strong-project.vercel.app/)
 
 ---
 
