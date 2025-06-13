@@ -3,6 +3,17 @@ import {Card, Title, Text, Button, Divider, Drawer, Stack} from "@mantine/core"
 import { NCESDistrictFeatureAttributes , NCESSchoolFeatureAttributes, searchSchools} from '@utils/nces';
 import SchoolCard from './SchoolCard';
 
+
+/**
+ * @component DistrictCard
+ * @description Displays a summary card for a school district, including its name, address, and LEAID. 
+ *              Includes a "View Schools in District" button that opens a drawer listing schools in the district. 
+ *              School data is fetched dynamically using the district's LEAID.
+ * @author Matthew Folefac <matthewfolefac98@gmail.com>
+ * @returns {JSX.Element} The school district summary card with a school list drawer
+ */
+
+
 interface DistrictCardProps {
   district: NCESDistrictFeatureAttributes;
 }
@@ -54,7 +65,15 @@ const DistrictCard = ({ district}: DistrictCardProps) => {
             <Text>{district.LCITY}, {district.LSTATE} {district.LZIP}</Text>
             <Divider my="sm" />
             <Text size="sm" color="dimmed">LEAID: {district.LEAID}</Text>
-            <Button mt="md" onClick={handleViewSchools}>
+            <Button mt="md" onClick={handleViewSchools}
+              styles={{
+                root: {
+                  backgroundColor: "#1E7B75",
+                  "&:hover": {
+                    backgroundColor: "#18685F", // a darker variant for hover
+                  },
+                },
+              }}>
                 View Schools in District
             </Button>
         </Card>

@@ -21,13 +21,37 @@ import {
   NCESSchoolFeatureAttributes,
 } from "@utils/nces";
 
+/**
+ * @component Home
+ * @description The main landing page for the School Finder app. It includes:
+ * - A title and search bar (with debounce),
+ * - Search logic for either schools or districts using NCES/ArcGIS APIs,
+ * - Display of search results (SchoolCard or DistrictCard),
+ * - A responsive layout that shows a list on the left and a dynamic Google Map on the right,
+ * - A fallback full-width map when no search has been performed.
+ *
+ * Uses Mantine UI components and hooks for layout and styling.
+ * @author Matthew Folefac <matthewfolefac98@gmail.com>
+ * @returns {JSX.Element} The complete Home page UI
+ */
+
 const Home = () => {
+    // Tracks whether a search request is currently in progress to show a loading spinner
   const [searching, setSearching] = useState(false);
+
+  // Stores the user's input from the search bar
   const [query, setQuery] = useState("");
+
+  // Stores whether the user is searching for "school" or "district"
   const [searchType, setSearchType] = useState("school");
+
+  // Holds the array of district search results (from the NCES API)
   const [districtSearch, setDistrictSearch] = useState<NCESDistrictFeatureAttributes[]>([]);
+
+  // Holds the array of school search results (from the NCES API)
   const [schoolSearch, setSchoolSearch] = useState<NCESSchoolFeatureAttributes[]>([]);
 
+  // Debounced value of the search query to reduce API calls while typing
   const [debouncedQuery] = useDebouncedValue(query, 300);
 
   const clearSearch = () => {
@@ -37,6 +61,7 @@ const Home = () => {
     setDistrictSearch([]);
   };
 
+  // Executes the appropriate search API call based on searchType
   const handleSearch = async () => {
     setSearching(true);
 
@@ -45,7 +70,7 @@ const Home = () => {
         const results = await searchSchoolDistricts(query);
         setDistrictSearch(results);
         setSchoolSearch([]);
-      } else {
+      } else { // For schools, if selected
         const results = await searchSchools(query);
         setSchoolSearch(results);
         setDistrictSearch([]);
@@ -57,6 +82,7 @@ const Home = () => {
     setSearching(false);
   };
 
+  // Triggers the search function after a short delay (debounce) if input is long enough
   useEffect(() => {
     if (debouncedQuery.length >= 4) {
       handleSearch();
@@ -67,7 +93,8 @@ const Home = () => {
   return (
     <Container size="xl" pt={60}>
       <Stack spacing="xl">
-        <Title align="center" mt={60}>
+        <Title align="center" mt={60}
+        style={{zIndex: 1}}>
           School Finder
         </Title>
 
@@ -94,6 +121,7 @@ const Home = () => {
                 }}
               >
                 <Stack spacing="md">
+                  {/* Sticky banner showing count of current results */}
                   {(schoolSearch.length > 0 || districtSearch.length > 0) && (
                     <Box
                         style={{
@@ -102,16 +130,19 @@ const Home = () => {
                             backgroundColor: "white",
                             zIndex: 1,
                             paddingBottom: "0.5rem",
+                            paddingLeft:"0.5rem",
+                            paddingTop: "0.5rem"
                         }}
                         >
                         <Text size="sm" color="dimmed">
+                          {/* Conditional logic for displaying district or schools */}
                             {schoolSearch.length > 0
                             ? `Now showing ${schoolSearch.length} school${schoolSearch.length !== 1 ? "s" : ""}`
                             : `Now showing ${districtSearch.length} district${districtSearch.length !== 1 ? "s" : ""}`}
                         </Text>
                         </Box>
                   )}
-
+                  {/* Render either district cards or school cards */}
                   {districtSearch.map((district, index) => (
                     <DistrictCard
                       key={index}
@@ -121,6 +152,7 @@ const Home = () => {
                   {schoolSearch.map((school, index) => (
                     <SchoolCard key={index} school={school} />
                   ))}
+                  {/* Fallback message for no results found */}
                   {!searching &&
                     districtSearch.length === 0 &&
                     schoolSearch.length === 0 &&

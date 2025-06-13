@@ -2,6 +2,15 @@ import React, {useState} from "react";
 import {Card, Text, Title, Divider, Button, Drawer, Stack} from "@mantine/core"
 import { NCESSchoolFeatureAttributes } from "@utils/nces";
 
+/**
+ * @component SchoolCard
+ * @description Displays basic information about a school and allows users to view more details in a side drawer.
+ * - Shows school name, address, and a "More Info" button.
+ * - When the button is clicked, a drawer opens from the left displaying additional school metadata such as locale, county, and coordinates.
+ * - Utilizes Mantine's Card, Drawer, and Stack components for layout and styling.
+ * @author Matthew Folefac <matthewfolefac98@gmail.com>
+ * @returns {JSX.Element} A card component summarizing a single school
+ */
 
 interface SchoolCardProps {
     school: NCESSchoolFeatureAttributes;
@@ -36,7 +45,15 @@ const SchoolCard = ({school}: SchoolCardProps) => {
                 <Text>{school.STREET}</Text>
                 <Text>{school.CITY}, {school.STATE} {school.ZIP}</Text>
                 <Divider my="sm" />
-                <Button mt="md" onClick={() => setOpened(true)}>More Info</Button>
+                <Button mt="md" onClick={() => setOpened(true)}
+                    styles={{
+                        root: {
+                        backgroundColor: "#1E7B75",
+                        "&:hover": {
+                            backgroundColor: "#18685F", // a darker variant for hover
+                        },
+                        },
+                    }}>More Info</Button>
             </Card>
         </>
         

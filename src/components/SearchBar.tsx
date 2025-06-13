@@ -2,6 +2,17 @@ import React from "react";
 import { Box, TextInput, Select, Button, Group, Stack} from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
+/**
+ * @component SearchBar
+ * @description Renders a responsive search interface for querying schools or districts.
+ * - Adapts layout based on screen size: stacked on mobile and inline on larger screens.
+ * - Includes a text input, a category selector (school/district), and "Search" and "Clear" buttons.
+ * - Supports throttled input updates and Enter key submission.
+ * - The "Clear" button includes a custom red hover effect.
+ * @author Matthew Folefac <matthewfolefac98@gmail.com>
+ * @returns {JSX.Element} The search bar component used to filter schools and districts
+ */
+
 interface SearchBarProps {
   query: string;
   setQuery: (val: string) => void;
@@ -48,7 +59,15 @@ const SearchBar = ({
           />
 
           <Group grow>
-            <Button onClick={onSearch} radius="xl">Search</Button>
+            <Button onClick={onSearch} radius="xl"
+            styles={{
+                  root: {
+                    backgroundColor: "#1E7B75",
+                    "&:hover": {
+                      backgroundColor: "#18685F", // a darker variant for hover
+                    },
+                  },
+                }}>Search</Button>
             <Button variant="outline" onClick={onClear} color="red" radius="xl">Clear</Button>
           </Group>
         </Stack>
@@ -80,7 +99,15 @@ const SearchBar = ({
                 />
 
                 
-                <Button onClick={onSearch} radius="xl">Search</Button>
+                <Button onClick={onSearch} radius="xl" 
+                styles={{
+                  root: {
+                    backgroundColor: "#1E7B75",
+                    "&:hover": {
+                      backgroundColor: "#18685F", // a darker variant for hover
+                    },
+                  },
+                }}>Search</Button>
                 <Button onClick={onClear} variant="outline" color="red" radius="xl"
                 styles={(theme) => ({
                     root: {

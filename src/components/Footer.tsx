@@ -11,6 +11,15 @@ import {
   Group,
 } from "@mantine/core";
 
+/**
+ * @component Footer
+ * @description Renders the main site footer modeled after the CharacterStrong website. It includes organization contact info, 
+ *              curriculum tiers (Tier 1, 2, and 3), support resources, and navigation links. It is fully responsive and includes
+ *              hover effects and a styled "Contact Us" button.
+ * @author Matthew Folefac <matthewfolefac98@gmail.com>
+ * @returns {JSX.Element} The structured and responsive site footer
+ */
+
 const Footer = () => {
   return (
     <Box bg="gray.1" py="xl" mt="xl" style={{ borderTop: "1px solid #e6e6e6" }}>
