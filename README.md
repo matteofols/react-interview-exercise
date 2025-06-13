@@ -2,6 +2,8 @@
 
 A responsive React + TypeScript application that allows users to search for U.S. schools and school districts using NCES and ArcGIS APIs. Results are visualized on an interactive Google Map with detailed views for both schools and districts.
 
+- Deployed via Vercel [Click Here](https://character-strong-project.vercel.app/)
+
 ![School Finder Screenshot](src/preview.png)
 
 ---
@@ -25,7 +27,7 @@ A responsive React + TypeScript application that allows users to search for U.S.
 - [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript)  
 - [NCES + ArcGIS APIs](https://data-nces.opendata.arcgis.com/)  
 - [Vite](https://vitejs.dev/)  
-- Deployed via Vercel [Click Here](https://character-strong-project.vercel.app/)
+
 
 ---
 
