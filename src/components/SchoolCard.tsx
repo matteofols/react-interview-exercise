@@ -26,7 +26,7 @@ const SchoolCard = ({school}: SchoolCardProps) => {
                 onClose={() => setOpened(false)}
                 title={school.NAME}
                 padding="md"
-                position="left"
+                position="right"
                 size="md"
                 closeButtonProps={{color:'red'}}
                 zIndex={1000}>
